@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 255573 2015-12-10 05:01:27Z foutrelis $
+# $Id: PKGBUILD 268264 2016-05-17 21:44:11Z foutrelis $
 # Maintainer: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Gaetan Bisson <bisson@archlinux.org>
 # Contributor: Thayer Williams <thayer@archlinux.org>
@@ -7,8 +7,8 @@
 # Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
 
 pkgname=p7zip
-pkgver=9.38.1
-pkgrel=4
+pkgver=15.14.1
+pkgrel=2
 pkgdesc="Command-line file archiver with high compression ratio"
 arch=('i686' 'x86_64')
 url="http://p7zip.sourceforge.net/"
@@ -17,8 +17,12 @@ depends=('gcc-libs' 'sh')
 makedepends_i686=('nasm')
 makedepends_x86_64=('yasm')
 install=$pkgname.install
-source=(https://downloads.sourceforge.net/project/$pkgname/$pkgname/$pkgver/${pkgname}_${pkgver}_src_all.tar.bz2)
-sha256sums=('fd5019109c9a1bf34ad3257d37a6853eae8151ff50345f0a3ffba7d8c5fdb995')
+source=(https://downloads.sourceforge.net/project/$pkgname/$pkgname/$pkgver/${pkgname}_${pkgver}_src_all.tar.bz2
+        CVE-2016-2334.patch
+        CVE-2016-2335.patch)
+sha256sums=('699db4da3621904113e040703220abb1148dfef477b55305e2f14a4f1f8f25d4'
+            '632cae14095e065cb550b0f16faf39d8f822d0a8bb5b605e903f3bc7657a4ee5'
+            '368870f92c658e8add261695923470855a969c0d7ecafd880ec7144ac245adbf')
 
 prepare() {
   cd "$srcdir/${pkgname}_$pkgver"
@@ -28,6 +32,10 @@ prepare() {
   else
     cp makefile.linux_x86_asm_gcc_4.X makefile.machine
   fi
+
+  # https://sourceforge.net/p/p7zip/discussion/383043/thread/9d0fb86b/
+  patch -Np1 -i ../CVE-2016-2334.patch
+  patch -Np1 -i ../CVE-2016-2335.patch
 }
 
 build() {
@@ -47,8 +55,6 @@ package() {
   ln -s -t "$pkgdir/usr/share/licenses/p7zip/" \
     /usr/share/doc/p7zip/DOC/License.txt \
     /usr/share/doc/p7zip/DOC/unRarLicense.txt
-
-  chmod -R a+r,u+w,a+X "$pkgdir/usr"
 }
 
 # vim:set ts=2 sw=2 et:
