@@ -19,25 +19,14 @@ depends=('gcc-libs' 'sh' 'libnatspec')
 conflicts=('p7zip')
 provides=('p7zip')
 source=(https://github.com/jinfeihan57/p7zip/archive/v$pkgver/$_pkgname-v$pkgver.tar.gz
-        oemcp-iconv.patch::https://github.com/jinfeihan57/p7zip/commit/c104127e6a93.patch
-        oemcp-cygwin.patch::https://github.com/jinfeihan57/p7zip/commit/0e0a1a8316b6.patch
-        oemcp-apple.patch::https://github.com/jinfeihan57/p7zip/commit/334a01e3f8bc.patch
         natspec.patch)
 sha256sums=('ea029a2e21d2d6ad0a156f6679bd66836204aa78148a4c5e498fe682e77127ef'
-            'e32636aa03b9c75a2b9d9138e03a738ceed6ca5da4c3c67e7f5981e135fb9e24'
-            'fa658d42cc1da2b567a210a819502bd8e3bb1e02d5d23e087e2278c4aaffe15e'
-            'a1b21ceb5582633d85d41ec9e4995f758cba1731dd80fb6f45a7bc6b18bfe394'
-            'e98506a3880da2d8b54ccbafbb3acac1bbc6b8f2552de37b658a4bfac7f498ad')
+            '8412de795faf1abafc5303458699f1621e4900ef854b733c7c409385d78e11ee')
 
 prepare() {
   cd $_pkgname-$pkgver
 
   patch -p1 < ../natspec.patch
-
-  # https://github.com/jinfeihan57/p7zip/issues/112
-  patch -Rp1 -i ../oemcp-apple.patch
-  patch -Rp1 -i ../oemcp-cygwin.patch
-  patch -Rp1 -i ../oemcp-iconv.patch
 }
 
 build() {
