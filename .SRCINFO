@@ -4,6 +4,7 @@ pkgbase = p7zip-natspec
 	pkgrel = 1
 	url = https://github.com/p7zip-project/p7zip
 	arch = x86_64
+	arch = aarch64
 	license = LGPL
 	license = custom:unRAR
 	depends = gcc-libs
